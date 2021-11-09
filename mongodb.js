@@ -15,6 +15,34 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     }
     const db = client.db(databaseName)
 
+    // D CRUD
+    // db.collection('users').deleteMany({ age: 27 }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
+
+    db.collection('users').deleteOne(
+        {
+            _id: ObjectId("618a9cfa0c2a02eddee21c09")
+        }).then((result) => {
+            console.log(result)
+        }).catch((error) => {
+            console.log(error)
+        })
+    // U CRUD
+    // db.collection('tasks').updateMany({
+    //     completed: true
+    // }, {
+    //     $set: {
+    //         completed: false
+    //     }
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error, 'Ifuck your bitch')
+    // })
+
     // db.collection('users').updateOne(
     //     {
     //         _id: new ObjectId("618aa2948c094a50812dd703")
