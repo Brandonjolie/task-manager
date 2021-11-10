@@ -47,11 +47,8 @@ router.patch('/tasks/:id', async (req, res) => {
         return res.status(400).send({ error: "Invalid key for update" })
     }
     try {
-        const task = await Task.findByIdAndUpdate(id, req.body,
-            {
-                new: true,
-                runValidators: true
-            })
+        const task = await Task.findByIdAndUpdate(id)
+        updates.forEach((update) => task[update] = req.body[update])
         if (!task) {
             console.log(id)
             return res.status(400).send()
