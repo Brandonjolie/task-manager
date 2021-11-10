@@ -1,3 +1,4 @@
 node_modules/
 playground/
-mongodb.ps1
+./mongodb.ps1
+playground/promise.js
