@@ -1,6 +1,6 @@
 // CRUD
 
-
+// cnost mongGoose = require('mongoose')
 const mongodb = require('mongodb')
 // const MongoClient = mongodb.MongoClient
 const { MongoClient, ObjectId } = require('mongodb')
@@ -22,14 +22,14 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     //     console.log(error)
     // })
 
-    db.collection('users').deleteOne(
-        {
-            _id: ObjectId("618a9cfa0c2a02eddee21c09")
-        }).then((result) => {
-            console.log(result)
-        }).catch((error) => {
-            console.log(error)
-        })
+    // db.collection('users').deleteOne(
+    //     {
+    //         _id: ObjectId("618a9cfa0c2a02eddee21c09")
+    //     }).then((result) => {
+    //         console.log(result)
+    //     }).catch((error) => {
+    //         console.log(error)
+    //     })
     // U CRUD
     // db.collection('tasks').updateMany({
     //     completed: true
