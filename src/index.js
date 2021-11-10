@@ -41,6 +41,41 @@ app.get('/users/:id', async (req, res) => {
     }
 })
 
+app.patch('/users/:id', async (req, res) => {
+    const allowedUpdates = ['name', 'email', 'password', 'age']
+    const updates = Object.keys(req.body)
+    const isValidUpdate = updates.every((update) => allowedUpdates.includes(update))
+
+    const id = req.params.id
+
+    if (!isValidUpdate) {
+        return res.status(400).send({ error: "Invalid key for update" })
+    }
+    try {
+        const user = await User.findByIdAndUpdate(id, req.body,
+            {
+                new: true,
+                runValidators: true
+            })
+        if (!user) {
+            return res.status(404).send()
+        }
+        res.status(200).send(user)
+    } catch (e) {
+        res.status(400).send()
+    }
+})
+
+app.delete('/users/:id', async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id)
+        if (!user) return res.status(404).send()
+        res.send(user)
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
 app.post('/tasks', async (req, res) => {
     const task = new Task(req.body)
     try {
@@ -77,38 +112,37 @@ app.get('/tasks/:id', async (req, res) => {
 
 })
 
-app.patch('/users/:id', async (req, res) => {
-    const allowedUpdates = ['name', 'email', 'password', 'age']
-    const updates = Object.keys(req.body)
-    const isValidUpdate = updates.every((update) => allowedUpdates.includes(update))
-
-    const id = req.params.id
-
-    if (!isValidUpdate) {
-        return res.status(400).send({ error: "Invalid key for update" })
-    }
-    try {
-        const user = await User.findByIdAndUpdate(id, req.body,
-            {
-                new: true,
-                runValidators: true
-            })
-        if (!user) {
-            return res.status(404).send()
-        }
-        res.status(200).send(user)
-    } catch (e) {
-        res.status(400).send()
-    }
-})
-
 app.patch('/tasks/:id', async (req, res) => {
-    const id = req.body.id
+    const id = req.params.id
     const allowedUpdates = ['description', 'completed']
     const updates = Object.keys(req.body)
     const isValidUpdate = updates.every((update) => allowedUpdates.includes(update))
     if (!isValidUpdate) {
         return res.status(400).send({ error: "Invalid key for update" })
+    }
+    try {
+        const task = await Task.findByIdAndUpdate(id, req.body,
+            {
+                new: true,
+                runValidators: true
+            })
+        if (!task) {
+            console.log(id)
+            return res.status(400).send()
+        }
+        res.status(200).send(task)
+    } catch (e) {
+        res.status(400).send()
+    }
+})
+
+app.delete('/tasks/:id', async (req, res) => {
+    try {
+        const user = await Task.findByIdAndDelete(req.params.id)
+        if (!user) return res.status(404).send()
+        res.send(user)
+    } catch (e) {
+        res.status(500).send()
     }
 })
 
