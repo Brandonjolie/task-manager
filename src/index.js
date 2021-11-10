@@ -75,14 +75,41 @@ app.get('/tasks/:id', async (req, res) => {
         res.status(500).send()
     }
 
-    // Task.findById(id).then((result) => {
-    //     if (!result) {
-    //         return res.status(404).send()
-    //     }
-    //     res.status(200).send(result)
-    // }).catch((error) => {
-    //     res.status(500).send()
-    // })
+})
+
+app.patch('/users/:id', async (req, res) => {
+    const allowedUpdates = ['name', 'email', 'password', 'age']
+    const updates = Object.keys(req.body)
+    const isValidUpdate = updates.every((update) => allowedUpdates.includes(update))
+
+    const id = req.params.id
+
+    if (!isValidUpdate) {
+        return res.status(400).send({ error: "Invalid key for update" })
+    }
+    try {
+        const user = await User.findByIdAndUpdate(id, req.body,
+            {
+                new: true,
+                runValidators: true
+            })
+        if (!user) {
+            return res.status(404).send()
+        }
+        res.status(200).send(user)
+    } catch (e) {
+        res.status(400).send()
+    }
+})
+
+app.patch('/tasks/:id', async (req, res) => {
+    const id = req.body.id
+    const allowedUpdates = ['description', 'completed']
+    const updates = Object.keys(req.body)
+    const isValidUpdate = updates.every((update) => allowedUpdates.includes(update))
+    if (!isValidUpdate) {
+        return res.status(400).send({ error: "Invalid key for update" })
+    }
 })
 
 app.listen(port, () => {
