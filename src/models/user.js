@@ -63,6 +63,15 @@ userSchema.statics.findByCredentials = async (email, password) => {
     return user
 }
 
+userSchema.methods.toJSON = function () {
+    const user = this
+    const userObject = user.toObject()
+
+    delete userObject.password
+    delete userObject.tokens
+    return userObject
+}
+
 userSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, 'thisisarandomtokenusedforsecurity', { expiresIn: "12 Hours" })
@@ -76,7 +85,6 @@ userSchema.pre('save', async function (next) {
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 10)
     }
-    console.log('Just before saving', this.password)
     next()
 })
 

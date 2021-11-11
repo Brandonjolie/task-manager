@@ -13,3 +13,13 @@ app.use(taskRouter)
 app.listen(port, () => {
     console.log(`Server running on ${port}`)
 })
+
+
+const pet = {
+    name: 'Hal'
+}
+
+pet.toJSON = function () {
+    return {}
+}
+console.log(JSON.stringify(pet))
