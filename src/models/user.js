@@ -63,6 +63,14 @@ userSchema.statics.findByCredentials = async (email, password) => {
     return user
 }
 
+// Virtual 
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
+// Aux method
 userSchema.methods.toJSON = function () {
     const user = this
     const userObject = user.toObject()
@@ -72,6 +80,7 @@ userSchema.methods.toJSON = function () {
     return userObject
 }
 
+// Authentication
 userSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, 'thisisarandomtokenusedforsecurity', { expiresIn: "12 Hours" })

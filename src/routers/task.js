@@ -17,27 +17,29 @@ router.post('/tasks', auth, async (req, res) => {
     }
 })
 
-router.get('/tasks', async (req, res) => {
+router.get('/tasks', auth, async (req, res) => {
     try {
-        const result = await Task.find({})
+        const result = await Task.find({ owner: req.user.id })
         res.status(200).send(result)
     }
     catch (e) {
+        console.log(e)
         res.status(500).send(e)
     }
 })
 
-router.get('/tasks/:id', async (req, res) => {
+router.get('/tasks/:id', auth, async (req, res) => {
     const id = req.params.id
     try {
-        const result = await Task.findById(id)
+        // const result = await Task.findById(id)
+        const result = await Task.findOne({ id, owner: req.user.id })
         if (!result) {
-            return res.status(404).send()
+            return res.status(404).send(e)
         }
         res.status(200).send(result)
 
     } catch (e) {
-        res.status(500).send()
+        res.status(500).send({ error: 'Task does not exist' })
     }
 
 })
