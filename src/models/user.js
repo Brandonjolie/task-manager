@@ -3,6 +3,7 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Task = require('./task')
+const tokenRandomizer = require('../middleware/token')
 
 const userSchema = mongoose.Schema({
     name: {
@@ -90,7 +91,7 @@ userSchema.methods.toJSON = function () {
 // Authentication
 userSchema.methods.generateAuthToken = async function () {
     const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, 'thisisarandomtokenusedforsecurity', { expiresIn: "12 Hours" })
+    const token = jwt.sign({ _id: user._id.toString() }, tokenRandomizer, { expiresIn: "12 Hours" })
     user.tokens = user.tokens.concat({ token })
     await user.save()
     return token
