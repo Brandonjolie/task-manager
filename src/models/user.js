@@ -46,6 +46,8 @@ const userSchema = mongoose.Schema({
         token: { type: String, required: true }
     }]
 
+}, {
+    timestamps: true
 })
 
 userSchema.statics.findByCredentials = async (email, password) => {
