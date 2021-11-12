@@ -142,4 +142,5 @@ router.delete('/users/me/avatar', auth, avatar.single('avatar'), async (req, res
     res.send({ delete: "successful" })
 })
 
+
 module.exports = router
