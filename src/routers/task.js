@@ -37,7 +37,6 @@ router.get('/tasks', auth, async (req, res) => {
         sort.createdAt = -1
     }
     try {
-        // const result = await Task.find({ owner: req.user.id })
         await req.user.populate({
             path: 'tasks',
             match,
