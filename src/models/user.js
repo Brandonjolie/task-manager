@@ -3,7 +3,7 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Task = require('./task')
-const tokenRandomizer = require('../middleware/token')
+const tokenRandomizer = process.env.JWT_SECRET
 
 const userSchema = mongoose.Schema({
     name: {
