@@ -4,7 +4,7 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 const multer = require('multer')
 const sharp = require('sharp')
-const { sendWelcomeEmail } = require('../emails/account')
+const { sendWelcomeEmail, sendLeavingEmail } = require('../emails/account')
 
 router.get('/test', (req, res) => {
     res.send('test')
@@ -92,7 +92,9 @@ router.patch('/users/me', auth, async (req, res) => {
 
 router.delete('/users/me', auth, async (req, res) => {
     try {
+        const username = ""
         await req.user.remove()
+        sendLeavingEmail(req.user.email, req.user.name)
         res.send(req.user)
     } catch (e) {
         res.status(500).send()
