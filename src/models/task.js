@@ -21,24 +21,6 @@ const taskSchema = mongoose.Schema({
     timestamps: true
 })
 
-// const Task = mongoose.model('tasks', {
-//     description: {
-//         type: String,
-//         trim: true,
-//         required: true
-//     },
-//     completed: {
-//         type: Boolean,
-//         required: false,
-//         default: false
-//     },
-//     owner: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         required: true,
-//         ref: 'User'
-//     }
-// })
-
 const Task = mongoose.model('Task', taskSchema)
 
 module.exports = Task

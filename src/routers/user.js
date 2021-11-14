@@ -18,7 +18,7 @@ router.post('/users', async (req, res) => {
         sendWelcomeEmail(user.email, user.name)
         res.status(201).send(user)
     } catch (e) {
-        res.status(400).send(`${e}`)
+        res.status(400).send()
     }
 })
 
@@ -94,7 +94,7 @@ router.delete('/users/me', auth, async (req, res) => {
     try {
         const username = ""
         await req.user.remove()
-        sendLeavingEmail(req.user.email, req.user.name)
+        // sendLeavingEmail(req.user.email, req.user.name)
         res.send(req.user)
     } catch (e) {
         res.status(500).send()
